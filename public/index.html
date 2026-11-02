@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#DE5934">
+<title>Рыбный рейс</title>
+<meta name="description" content="Заказ свежей рыбы на выходные по точкам Краснодара и пригорода. Видно, где больше всего заказов.">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Рыбный рейс">
+<link rel="stylesheet" href="style.css">
+<style>
+.timer{background:var(--surface);border-radius:var(--r);padding:14px 16px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 16px;border:1px solid transparent}
+.timer .t-lab{font-size:13px;color:var(--muted);line-height:1.3}
+.timer .t-lab b{color:var(--ink);font-size:15px;display:block}
+.clock{display:flex;gap:6px;align-items:flex-start}
+.clock .u{display:flex;flex-direction:column;align-items:center;min-width:50px;background:var(--surface-2);border-radius:10px;padding:6px 6px 4px}
+.clock .u b{font-family:var(--display);font-size:26px;font-weight:800;line-height:1.05;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.clock .u small{font-size:11px;color:var(--muted)}
+.timer.soon{border-color:var(--hot);background:var(--hot-soft)}
+.timer.soon .clock .u{background:var(--surface)}
+.timer.soon .clock .u b,.timer.soon .t-lab b{color:var(--hot)}
+.timer.closed .t-lab b{color:var(--muted)}
+@media (prefers-reduced-motion:no-preference){.timer.soon .clock .u:last-child b{animation:tick 1s steps(2) infinite}}
+@keyframes tick{50%{opacity:.55}}
+@media (max-width:380px){.clock .u{min-width:44px}.clock .u b{font-size:22px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="brand">
+      <h1>Рыбный <span>рейс</span></h1>
+      <p id="dates">Краснодар и пригород</p>
+    </div>
+    <div class="top-actions">
+      <button class="btn" id="myBtn" hidden>Мои заказы</button>
+      <button class="btn btn-main" id="orderBtn">Заказать рыбу</button>
+    </div>
+  </header>
+
+  <div class="notice" id="notice" hidden></div>
+
+  <section class="timer" id="timer" aria-live="polite" hidden>
+    <div class="t-lab" id="tLab"></div>
+    <div class="clock" id="clock"></div>
+  </section>
+
+  <section class="truck" id="truck" aria-live="polite" hidden></section>
+
+  <section class="stats" aria-label="Итого за выходные">
+    <div class="stat"><b class="num" id="sOrders">—</b><span>заказов на выходные</span></div>
+    <div class="stat"><b class="num" id="sFish">—</b><span>форелей целиком</span></div>
+    <div class="stat busy"><b id="sBusy">—</b><span>самая загруженная точка</span></div>
+  </section>
+
+  <nav class="tabs" role="tablist" id="tabs" aria-label="Маршруты"></nav>
+
+  <div class="stockline" id="stockline" hidden></div>
+
+  <div class="legend">
+    <span><i style="background:var(--ok)"></i>Спокойно</span>
+    <span><i style="background:var(--warn)"></i>Будет очередь</span>
+    <span><i style="background:var(--hot)"></i>Большая очередь</span>
+  </div>
+
+  <ol class="route" id="route"></ol>
+
+  <footer class="foot" id="foot"></footer>
+  <div class="install" id="install" hidden><p id="installTxt"></p><button class="btn" id="installBtn">Установить</button></div>
+  <p class="updated" id="updated"></p>
+</div>
+
+<div class="dock">
+  <button class="btn" id="myBtn2" hidden>Мои</button>
+  <button class="btn btn-main" id="orderBtn2">Заказать рыбу</button>
+</div>
+
+<div class="scrim" id="scrim" hidden>
+  <div class="sheet" role="dialog" aria-modal="true" id="sheet"></div>
+</div>
+<script src="demo.js"></script>
+<script src="qr.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

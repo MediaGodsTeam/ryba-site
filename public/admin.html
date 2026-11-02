@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0F2433">
+<title>Выдача · Рыбный рейс</title>
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="style.css">
+<style>
+.wrap{padding-bottom:48px}
+.login{max-width:380px;display:flex;flex-direction:column;gap:10px;background:var(--surface);border-radius:var(--r);padding:20px}
+.views{display:flex;gap:6px}
+.views button{border:1px solid var(--line);background:transparent;border-radius:999px;padding:8px 16px;font-weight:600;min-height:40px}
+.views button[aria-selected="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.sticky{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:8px;display:flex;flex-direction:column;gap:10px}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+.bar2{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between}
+.bar2 select{width:auto;min-width:160px}
+.prog{font-variant-numeric:tabular-nums;color:var(--muted);font-weight:400}
+.ph{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between;margin-bottom:8px}
+.ph h4{margin:0}
+.tbtns{display:flex;gap:6px;flex-wrap:wrap}
+.tchip{font-size:12px;font-weight:700;border-radius:999px;padding:4px 10px;background:var(--surface-2);color:var(--muted)}
+.tchip.here{background:var(--accent);color:var(--accent-ink)}
+.tchip.gone{background:var(--ok-soft);color:var(--ok)}
+.btn.sm{min-height:38px;padding:6px 14px;font-size:14px}
+.btn.go{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.truckctl{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}
+.truckctl label{font-size:14px;display:flex;gap:8px;align-items:center}
+.truckctl select{width:auto;min-height:40px;padding:6px 10px}
+table.stk{width:100%;border-collapse:collapse;font-size:14px}
+table.stk th{font-size:12px;color:var(--muted);font-weight:600;text-align:right;padding:4px 6px}
+table.stk th:first-child,table.stk td:first-child{text-align:left}
+table.stk td{padding:6px;border-top:1px solid var(--line);text-align:right;font-variant-numeric:tabular-nums}
+table.stk input{width:76px;min-height:38px;padding:6px 8px;text-align:right;font-size:16px}
+table.stk .free.low{color:var(--hot);font-weight:700}
+.scroll{overflow-x:auto}
+.slothead{font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;padding:10px 0 2px;border-top:1px solid var(--line)}
+.ord{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 10px;align-items:center;padding:10px 0;border-top:1px solid var(--line)}
+.slothead + .ord{border-top:0}
+.ord .who b{font-variant-numeric:tabular-nums;color:var(--accent);margin-right:6px}
+.ord .what{color:var(--muted);font-size:13px}
+.ord.done .who{color:var(--muted)}
+.ord.cancelled{opacity:.5}
+.ord.hit{background:var(--accent-soft);border-radius:10px;padding-inline:8px}
+.badge{display:inline-block;font-size:11px;font-weight:700;border-radius:6px;padding:2px 6px;margin-left:6px;vertical-align:1px}
+.badge.ns{background:var(--warn-soft);color:var(--warn)}
+.badge.ok{background:var(--ok-soft);color:var(--ok)}
+.badge.cx{background:var(--hot-soft);color:var(--hot)}
+.weigh{grid-column:1/-1;background:var(--surface-2);border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:8px}
+.wrow{display:grid;grid-template-columns:minmax(0,1fr) 110px;gap:8px;align-items:center;font-size:14px}
+.wrow input{min-height:44px;text-align:right;font-size:18px;font-variant-numeric:tabular-nums}
+.wrow .fixed{text-align:right;font-variant-numeric:tabular-nums;font-weight:600}
+.wsum{font-size:20px;font-weight:800;text-align:right;font-variant-numeric:tabular-nums}
+.stats-grid{display:flex;flex-direction:column;gap:12px}
+table.wk{width:100%;border-collapse:collapse;font-size:14px;min-width:560px}
+table.wk th{font-size:12px;color:var(--muted);text-align:right;padding:6px;font-weight:600}
+table.wk td{padding:8px 6px;border-top:1px solid var(--line);text-align:right;font-variant-numeric:tabular-nums}
+table.wk th:first-child,table.wk td:first-child{text-align:left}
+.pbar{display:grid;grid-template-columns:minmax(0,1fr) 90px 52px;gap:8px;align-items:center;font-size:14px;padding:5px 0}
+.pbar .t{height:10px;border-radius:5px;background:var(--surface-2);overflow:hidden}
+.pbar .t i{display:block;height:100%;background:var(--sea);border-radius:5px}
+.pbar .v{text-align:right;font-variant-numeric:tabular-nums;color:var(--muted)}
+.pbar .v.up{color:var(--ok)} .pbar .v.down{color:var(--hot)}
+@media (max-width:420px){.pbar{grid-template-columns:minmax(0,1fr) 60px 46px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="brand"><h1>Выдача <span>заказов</span></h1><p id="sub">Рыбный рейс · для организаторов</p></div>
+    <div class="top-actions" style="display:flex"><a class="btn" href="./">Сайт</a><button class="btn" id="logout" hidden>Выйти</button></div>
+  </header>
+
+  <form class="login" id="login" hidden>
+    <label class="lbl" for="pw">Пароль администратора</label>
+    <input type="password" id="pw" autocomplete="current-password">
+    <p class="err" id="lerr" hidden></p>
+    <button class="btn btn-main" type="submit">Войти</button>
+  </form>
+
+  <div id="app" hidden class="admin">
+    <div class="views" role="tablist"><button role="tab" data-v="work" aria-selected="true">Выдача</button><button role="tab" data-v="stats" aria-selected="false">Статистика</button></div>
+
+    <div id="work" class="admin">
+      <div class="sticky">
+        <div class="search"><input type="text" id="q" placeholder="Поиск по номеру или фамилии" aria-label="Поиск по номеру или фамилии" inputmode="search"><button class="btn" id="clearQ" type="button">Сброс</button></div>
+        <nav class="tabs" role="tablist" id="tabs"></nav>
+      </div>
+      <div class="panel" id="truckPanel"></div>
+      <div class="panel"><h4 id="totTitle">Загрузка машины</h4><div class="scroll" id="stock"></div></div>
+      <div id="points" class="admin"></div>
+      <div class="bar2"><select id="wk" aria-label="Выходные"></select><a class="btn" id="csv" href="#" role="button">Скачать таблицу для Excel</a></div>
+    </div>
+
+    <div id="stats" class="stats-grid" hidden></div>
+  </div>
+</div>
+<script src="demo.js"></script>
+<script src="admin.js"></script>
+</body>
+</html>

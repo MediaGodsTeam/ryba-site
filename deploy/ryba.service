@@ -1,0 +1,15 @@
+[Unit]
+Description=Рыбный рейс — сайт заказов
+After=network.target
+
+[Service]
+Type=simple
+User=ryba
+WorkingDirectory=/opt/ryba-site
+EnvironmentFile=/etc/ryba.env
+ExecStart=/usr/bin/node /opt/ryba-site/server.js
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target

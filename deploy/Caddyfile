@@ -1,0 +1,7 @@
+# Замените ryba-krd.ru на ваш домен. Caddy сам получит и будет продлевать HTTPS-сертификат.
+ryba-krd.ru, www.ryba-krd.ru {
+	encode gzip
+	reverse_proxy 127.0.0.1:3000 {
+		header_up X-Real-IP {remote_host}
+	}
+}
